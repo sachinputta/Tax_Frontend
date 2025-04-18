@@ -3,16 +3,16 @@ const path = require('path');
 
 const app = express();
 
-// Serve static files from the correct Angular build directory
+// Serve static files
 app.use(express.static(path.join(__dirname, 'dist/erp-project')));
 
-// Redirect all routes to index.html (for Angular routing)
+// Handle all routes
 app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist/erp-project', 'welcomepage.html'));
+  res.sendFile(path.join(__dirname, 'dist/erp-project/index.html'));
 });
 
-// Start the server
-const PORT = process.env.PORT || 4200;
+// Start server
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
