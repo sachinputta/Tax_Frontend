@@ -1,15 +1,18 @@
-let express = require('express');
+const express = require('express');
+const path = require('path');
 
-let app = express();
+const app = express();
 
-app.use(express.static(__dirname+'/dist/edon-ng'));
+// Serve static files from the correct Angular build directory
+app.use(express.static(path.join(__dirname, 'dist/erp-project')));
 
-app.get('/*',(req,resp)=>{
-    resp.sendFile(__dirname+'/dist/edon-ng/index.html');
+// Redirect all routes to index.html (for Angular routing)
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist/erp-project', 'welcomepage.html'));
 });
 
-app.listen(process.env.PORT || 4200);
-
-
-//comment while running in localhost
-
+// Start the server
+const PORT = process.env.PORT || 4200;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
