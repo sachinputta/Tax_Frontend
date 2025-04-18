@@ -1,0 +1,71 @@
+<app-navbar></app-navbar>
+
+
+<!-- <div class="main-container">
+  <div class="quotes-container">
+    <div class="header">
+      <span>All Quotes</span>
+      <button>New</button>
+    </div>
+    <div class="quote-list">
+      <div class="quote-item" *ngFor="let quote of filteredQuotes" (click)="selectQuote(quote.id)" [class.selected]="selectedQuoteId === quote.id">
+        <input type="checkbox" />
+        <span class="customer">{{ quote.customerName }}</span>
+        <span class="amount">{{ quote.amount | currency:'INR' }}</span>
+        <span class="date">{{ quote.date }}</span>
+        <span class="status">{{ quote.status }}</span>
+        <div class="actions">
+          <button (click)="sendQuote(quote.id, '1234567890', 'customer@example.com')">Send</button>
+          <select [(ngModel)]="quote.status" (change)="updateStatus(quote.id, quote.status)">
+            <option *ngFor="let s of statuses" [value]="s">{{ s }}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="filter-section">
+      <input type="text" placeholder="Search in Quotes" [(ngModel)]="searchText" (ngModelChange)="filterQuotes()" />
+      <input type="date" [(ngModel)]="startDate" (ngModelChange)="filterQuotes()" placeholder="Start Date" />
+      <input type="date" [(ngModel)]="endDate" (ngModelChange)="filterQuotes()" placeholder="End Date" />
+      <button (click)="exportToExcel()">Export to Excel</button>
+    </div>
+  </div>
+  <app-quote [selectedQuoteId]="selectedQuoteId"></app-quote>
+</div> -->
+
+
+
+<div class="main-container">
+
+  <div class="quotes-container">
+
+    <div class="header-row">
+      <div class="all-quotes-dropdown">
+        <span class="all-quotes-title">All Quotes</span>
+        <span class="arrow">&#9662;</span>
+      </div>
+      <button class="btn-new">+ New</button>
+    </div>
+
+
+    <div class="quote-list">
+      <div class="quote-item" *ngFor="let quote of filteredQuotes" (click)="selectQuote(quote.id)"
+        [class.selected]="selectedQuoteId === quote.id">
+
+        <div class="quote-top">
+          <input type="checkbox" />
+          <span class="customer">{{ quote.customerName }}</span>
+          <span class="amount">{{ quote.amount | currency:'INR' }}</span>
+        </div>
+        <div class="quote-meta">
+          <span class="quote-id">{{ quote.id }}</span>
+          <span class="date">{{ quote.date }}</span>
+        </div>
+        <span class="status">{{ quote.status }}</span>
+        <div class="actions"></div>
+      </div>
+    </div>
+    
+    
+  </div>
+  <app-quote [selectedQuoteId]="selectedQuoteId"></app-quote>
+</div>
