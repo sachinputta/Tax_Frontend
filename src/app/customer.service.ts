@@ -162,8 +162,9 @@ import { CustomerRegistration } from './Models/CustomerRegistration';
   providedIn: 'root'
 })
 export class CustomerService {
-  // private baseUrl = 'http://localhost:8082';
+  // private baseUrl = 'http://localhost:8080';
   private baseUrl = 'https://taxapp1-9e3fb338382d.herokuapp.com';
+
 
 
   constructor(private http: HttpClient, private auth: AuthService) { }
@@ -205,12 +206,31 @@ export class CustomerService {
   }
 
 
+  // getCustomerProfile(customerId: string): Observable<any> {
+  //   return this.http.post(`${this.baseUrl}/get-profile-details`, { customerId }, {
+  //     headers: this.auth.getAuthHeaders(),
+  //     responseType: 'json'
+  //   });
+  // }
+
   getCustomerProfile(customerId: string): Observable<any> {
-    return this.http.post(`${this.baseUrl}/get-profile-details`, { customerId }, {
-      headers: this.auth.getAuthHeaders(),
-      responseType: 'json'
-    });
+    const token = this.auth.getToken();  // Adjust this to get your token properly
+    console.log('Token:', token);  // Log token to console
+  
+    return this.http.post(`${this.baseUrl}/get-profile-details`, 
+      { customerId },
+      {
+        headers: new HttpHeaders({
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }),
+        responseType: 'json'
+      }
+    );
   }
+  
+  
+
 
   // UPDATE Profile
   updateCustomerProfile(customerId: string, customerData: any): Observable<any> {

@@ -21,6 +21,17 @@ export class NavbarComponent implements OnInit {
   isSalesOpen = false;
   isPurchasesOpen = false;
 
+  
+  isEditMode = false;
+
+  companyName: string = '';
+  companyEmail: string = '';
+  phoneNumber: number | null = null;
+  state: string = '';
+  country: string = '';
+  customerId: string = '';
+
+
 
   constructor(private router: Router, private fb: FormBuilder,
     private http: HttpClient, private customerService: CustomerService,
@@ -43,31 +54,31 @@ export class NavbarComponent implements OnInit {
   }
 
 
-  isEditMode = false;
-
-  companyName: string = '';
-  companyEmail: string = '';
-  phoneNumber: number | null = null;
-  state: string = '';
-  country: string = '';
-  customerId: string = 'tcs@gmail.com'; // Replace with actual logged-in user ID
-
 
 
   loadCustomerProfile(): void {
-    this.customerService.getCustomerProfile(this.customerId).subscribe(
-      (res) => {
-        this.companyName = res.companyName;
-        this.companyEmail = res.customerEmail;
-        this.phoneNumber = res.phoneNumber;
-        this.state = res.state;
-        this.country = res.country;
-      },
-      (err) => {
-        console.error('Error loading profile:', err);
-      }
-    );
+    const customerId = localStorage.getItem('customerId');  // Get from local storage
+  
+    if (customerId) {
+      this.customerId = customerId; 
+  
+      this.customerService.getCustomerProfile(this.customerId).subscribe(
+        (res) => {
+          this.companyName = res.companyName;
+          this.companyEmail = res.customerId;
+          this.phoneNumber = res.phoneNumber;
+          this.state = res.state;
+          this.country = res.country;
+        },
+        (err) => {
+          console.error('Error loading profile:', err);
+        }
+      );
+    } else {
+      console.warn('No customerId found in local storage');
+    }
   }
+  
 
   openProfileModal() {
     this.resetToViewMode(); // Always reset before opening modal
@@ -241,49 +252,6 @@ export class NavbarComponent implements OnInit {
   }
 
 
-  // toggleDropdown(menu: string, event: Event) {
-  //   event.preventDefault();
-  //   event.stopPropagation();
-  
-  //   const currentUrl = this.router.url;
-  
-  //   const salesRoutes = [
-  //     '/allcustomers',
-  //     '/allquotes',
-  //     '/proformas',
-  //     '/sales-orders',
-  //     '/delivery-challans',
-  //     '/invoices',
-  //     '/payment-received',
-  //     '/recurring-invoices',
-  //     '/credit-notes'
-  //   ];
-  
-  //   const purchaseRoutes = [
-  //     '/vendors',
-  //     '/expenses',
-  //     '/purchase-orders',
-  //     '/bills',
-  //     '/payment-made',
-  //     '/vendor-credits'
-  //   ];
-  
-  //   const isInsideSales = salesRoutes.some(route => currentUrl.startsWith(route));
-  //   const isInsidePurchases = purchaseRoutes.some(route => currentUrl.startsWith(route));
-  
-  //   if (menu === 'sales') {
-  //     if (!this.isSalesOpen || !isInsideSales) {
-  //       this.isSalesOpen = true;
-  //       this.isPurchasesOpen = false;
-  //     }
-  //   } else if (menu === 'purchases') {
-  //     if (!this.isPurchasesOpen || !isInsidePurchases) {
-  //       this.isPurchasesOpen = true;
-  //       this.isSalesOpen = false;
-  //     }
-  //   }
-  // }
-  
   isSalesRouteActive(): boolean {
     const currentUrl = this.router.url;
     const salesRoutes = [
