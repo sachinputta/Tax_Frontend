@@ -1,21 +1,10 @@
-const express = require('express');
-const path = require('path');
+let express = require('express');
 
-const app = express();
+let app = express();
 
-// Replace with your actual Angular app name (dist output folder)
-const appName = 'erp-project';
+app.use(express.static(__dirname+'/dist/erp-project'));
 
-// Serve static files from the dist folder
-app.use(express.static(path.join(__dirname, 'dist', appName)));
-
-// Redirect all routes to index.html
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', appName, 'index.html'));
+app.get('/*',(req,resp)=>{
+    resp.sendFile(__dirname+'/dist/erp-project/index.html');
 });
-
-// Start the server
-const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+app.listen(process.env.PORT || 4200);
